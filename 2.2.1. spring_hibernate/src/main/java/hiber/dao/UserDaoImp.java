@@ -4,12 +4,11 @@ import hiber.model.Car;
 import hiber.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.TypedQuery;
-//import javax.persistence.TypedQuery;
+
 import java.util.List;
 
 @Repository
@@ -27,7 +26,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void add(User user,Car car) {
+    public void add(User user, Car car) {
         Session session = sessionFactory.openSession();
         user.setCarId(car);
         session.beginTransaction();
@@ -37,7 +36,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User findUserByCar(String model, int series) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             TypedQuery<User> query = session.createQuery(
                             "SELECT u FROM User u WHERE u.id = " +
                                     "(SELECT c.id FROM Car c WHERE c.model = :model AND c.series = :series)",
