@@ -36,7 +36,7 @@ public class AppConfig {
     }
 
     @Bean
-    public SessionFactory sessionFactory() {
+    public SessionFactory getSessionFactory() {
         SessionFactory sessionFactory = new LocalSessionFactoryBuilder(getDataSource()).
                 addAnnotatedClasses(User.class, Car.class).
                 buildSessionFactory();
@@ -46,7 +46,7 @@ public class AppConfig {
     @Bean
     public HibernateTransactionManager getTransactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory());
+        transactionManager.setSessionFactory(getSessionFactory());
         return transactionManager;
     }
 
