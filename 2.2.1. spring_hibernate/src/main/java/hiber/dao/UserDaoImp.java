@@ -19,19 +19,25 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void add(User user) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        sessionFactory.getCurrentSession().persist(user);
-        session.getTransaction().commit();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            sessionFactory.getCurrentSession().persist(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void add(User user, Car car) {
-        Session session = sessionFactory.openSession();
-        user.setCarId(car);
-        session.beginTransaction();
-        sessionFactory.getCurrentSession().persist(user);
-        session.getTransaction().commit();
+        try (Session session = sessionFactory.openSession()) {
+            user.setCarId(car);
+            session.beginTransaction();
+            sessionFactory.getCurrentSession().persist(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -55,8 +61,13 @@ public class UserDaoImp implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<User> listUsers() {
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
-        return query.getResultList();
+        try (Session session = sessionFactory.openSession()) {
+            TypedQuery<User> query = session.createQuery("from User");
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

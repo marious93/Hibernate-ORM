@@ -25,6 +25,7 @@ public class AppConfig {
     @Autowired
     private Environment env;
 
+
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -49,5 +50,6 @@ public class AppConfig {
         transactionManager.setSessionFactory(getSessionFactory());
         return transactionManager;
     }
+
 
 }
