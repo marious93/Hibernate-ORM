@@ -23,7 +23,7 @@ public class User {
     @Column(name = "mail")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "car_id")
     private Car carId;
 

@@ -18,10 +18,10 @@ public class UserDaoImp implements UserDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public void add(User user) {
+    public void addCar(Car car) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            sessionFactory.getCurrentSession().persist(user);
+            sessionFactory.getCurrentSession().persist(car);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,10 +29,11 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void add(User user, Car car) {
+    public void addUser(User user, Car car) {
         try (Session session = sessionFactory.openSession()) {
-            user.setCarId(car);
             session.beginTransaction();
+            user.setCarId(car);
+            sessionFactory.getCurrentSession().persist(car);
             sessionFactory.getCurrentSession().persist(user);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -60,14 +61,8 @@ public class UserDaoImp implements UserDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> listUsers() {
-        try (Session session = sessionFactory.openSession()) {
-            TypedQuery<User> query = session.createQuery("from User");
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public List<User> getAllUsers() {
+        return sessionFactory.openSession().createQuery("from User").getResultList();
     }
 
 }

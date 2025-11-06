@@ -25,7 +25,6 @@ public class AppConfig {
     @Autowired
     private Environment env;
 
-
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -40,6 +39,8 @@ public class AppConfig {
     public SessionFactory getSessionFactory() {
         SessionFactory sessionFactory = new LocalSessionFactoryBuilder(getDataSource()).
                 addAnnotatedClasses(User.class, Car.class).
+                setProperty("hibernate.hbm2ddl.auto","update").
+                setProperty("hibernate.show_sql","true").
                 buildSessionFactory();
         return sessionFactory;
     }
@@ -50,6 +51,5 @@ public class AppConfig {
         transactionManager.setSessionFactory(getSessionFactory());
         return transactionManager;
     }
-
 
 }
